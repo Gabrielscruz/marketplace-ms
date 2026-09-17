@@ -3,6 +3,7 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ProxyModule } from './proxy/proxy.module.js';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
       limit: 100, // 100 request per minute
     },
   ]),
+   ProxyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
