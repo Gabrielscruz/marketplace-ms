@@ -27,7 +27,7 @@ async function bootstrap() {
     const port = process.env.PORT ?? 3005;
     await app.listen(port);
     console.log(`:rocket: API Gateway running on port ${port}`);
-    console.log(`:books: API documentation <http://localhost>:${port}/api`);
+    console.log(`:books: API documentation http://localhost:${port}/api`);
 }
 await bootstrap();
 //# sourceMappingURL=main.js.map

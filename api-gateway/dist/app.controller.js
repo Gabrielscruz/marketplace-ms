@@ -9,13 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service.js';
+import { ProxyService } from './proxy/service/proxy.service.js';
 let AppController = class AppController {
     appService;
-    constructor(appService) {
+    proxyService;
+    constructor(appService, proxyService) {
         this.appService = appService;
+        this.proxyService = proxyService;
     }
     getHello() {
         return this.appService.getHello();
+    }
+    async getHealth() {
+        return {
+            status: 'ok',
+            timestamp: new Date().toISOString(),
+            services: {
+                users: await this.proxyService.gerServiceHealth('users'),
+                products: await this.proxyService.gerServiceHealth('products'),
+                checkout: await this.proxyService.gerServiceHealth('checkout'),
+                payments: await this.proxyService.gerServiceHealth('payments'),
+            },
+        };
     }
 };
 __decorate([
@@ -24,9 +39,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
+__decorate([
+    Get('health'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "getHealth", null);
 AppController = __decorate([
     Controller(),
-    __metadata("design:paramtypes", [AppService])
+    __metadata("design:paramtypes", [AppService,
+        ProxyService])
 ], AppController);
 export { AppController };
 //# sourceMappingURL=app.controller.js.map

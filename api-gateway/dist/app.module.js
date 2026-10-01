@@ -9,6 +9,7 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ProxyModule } from './proxy/proxy.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -23,6 +24,7 @@ AppModule = __decorate([
                     limit: 100,
                 },
             ]),
+            ProxyModule,
         ],
         controllers: [AppController],
         providers: [AppService],

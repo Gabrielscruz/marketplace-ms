@@ -40,6 +40,6 @@ async function bootstrap() {
   await app.listen(port);
 
   console.log(`:rocket: API Gateway running on port ${port}`)
-  console.log(`:books: API documentation <http://localhost>:${port}/api`)
+  console.log(`:books: API documentation http://localhost:${port}/api`)
 }
 await bootstrap();
