@@ -10,7 +10,12 @@ import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ProxyModule } from './proxy/proxy.module.js';
+import { MiddlewareModule } from './middleware/middleware.module.js';
+import { LoggingMiddleware } from './middleware/logging/logging.middleware.js';
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(LoggingMiddleware).forRoutes('*');
+    }
 };
 AppModule = __decorate([
     Module({
@@ -25,6 +30,7 @@ AppModule = __decorate([
                 },
             ]),
             ProxyModule,
+            MiddlewareModule,
         ],
         controllers: [AppController],
         providers: [AppService],

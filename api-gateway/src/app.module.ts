@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ProxyModule } from './proxy/proxy.module.js';
+import { MiddlewareModule } from './middleware/middleware.module.js';
+import { LoggingMiddleware } from './middleware/logging/logging.middleware.js';
 
 @Module({
   imports: [
@@ -17,8 +19,13 @@ import { ProxyModule } from './proxy/proxy.module.js';
     },
   ]),
    ProxyModule,
+   MiddlewareModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes('*');
+  }
+}
